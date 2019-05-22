@@ -10,3 +10,4 @@ def plot_deformation_map():
     
     
     
+def compare_models():
