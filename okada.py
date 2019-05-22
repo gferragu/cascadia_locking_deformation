@@ -54,5 +54,5 @@ def plot_deformation(alpha, strike, depth, dip,  strike_width, dip_width, disloc
             
     
     
-    
+    #returns ux, uy, ux, at every location from xmin, xmax, ymin, ymax
     return ux,uy,uz

@@ -7,3 +7,9 @@ Created on Wed May 22 11:24:39 2019
 """
 
 #read in model file
+
+def readfile():
+
+    
+    
+def define_patch():
