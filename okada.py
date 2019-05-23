@@ -15,41 +15,25 @@ import matplotlib as mpl
 mpl.rcParams.update({'font.size': 16})
 
 
-def calc_deformation(alpha, strike, depth, dip,  strike_width, dip_width, dislocation, xmin, xmax, ymin, ymax, name):
+def calc_deformation(alpha, strike, depth, dip,  strike_width, dip_width, dislocation, x,y):
     
-    horizontal = []
-    vert = []
-    x = []
-    y = []
-    hx = []
-    hy = []
-    ux = []
-    uy = []
-    uz = []
-    ulist = []
+
+    theta=strike-90
+    theta=np.deg2rad(theta)
+    R=np.array([[np.cos(theta),-np.sin(theta)],[np.sin(theta),np.cos(theta)]])
+    R2=np.array([[np.cos(-theta),-np.sin(-theta)],[np.sin(-theta),np.cos(theta)]])
+
+    xrot,yrot = R.dot(x,y)
+
+    success, u, grad_u = dc3dwrapper(alpha , [xrot, yrot, 0.0], depth, dip,  strike_width, dip_width, dislocation)                                      
+
+    urot=R2.dot(np.array([[u[0]], [u[1]]]))
+    u[0]=urot[0]
+    u[1]=urot[1]
     
-    for i in range(xmin,xmax):
-        for j in range(ymin, ymax):
-            theta=strike-90
-            theta=np.deg2rad(theta)
-            R=np.array([[np.cos(theta),-np.sin(theta)],[np.sin(theta),np.cos(theta)]])
-            xrot,yrot = R.dot(np.array([i,j]))
-    
-            success, u, grad_u = dc3dwrapper(alpha , [xrot, yrot, 0.0], depth, dip,  strike_width, dip_width, dislocation)                                      
-            hx.append(u[0])
-            hy.append(u[1])
-            xrot,yrot = R.dot(np.array([i,j]))
-            x.append(i)
-            y.append(j)
-            R2=np.array([[np.cos(-theta),-np.sin(-theta)],[np.sin(-theta),np.cos(theta)]])
-            urot=R2.dot(np.array([[u[0]], [u[1]]]))
-            ux.append(urot[0])
-            uy.append(urot[1])
-            uz.append(u[2])
-            horizontal.append(float(np.sqrt(urot[0]**2 + urot[1]**2)))
-            vert.append(u[2])
-            ulist.append(u)
-            
+    ux = u[0]
+    uy = u[1]
+    uz = u[2]
     
     
     #returns ux, uy, ux, at every location from xmin, xmax, ymin, ymax
