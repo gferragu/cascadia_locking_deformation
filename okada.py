@@ -15,8 +15,7 @@ import matplotlib as mpl
 mpl.rcParams.update({'font.size': 16})
 
 
-def plot_deformation(alpha, strike, depth, dip,  strike_width, dip_width, dislocation, xmin, xmax, ymin, ymax, name):
-    
+def calc_deformation(alpha, strike, depth, dip,  strike_width, dip_width, dislocation, xmin, xmax, ymin, ymax, name):
     
     horizontal = []
     vert = []
@@ -31,7 +30,6 @@ def plot_deformation(alpha, strike, depth, dip,  strike_width, dip_width, disloc
     
     for i in range(xmin,xmax):
         for j in range(ymin, ymax):
-            strike = 0
             theta=strike-90
             theta=np.deg2rad(theta)
             R=np.array([[np.cos(theta),-np.sin(theta)],[np.sin(theta),np.cos(theta)]])
