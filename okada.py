@@ -15,15 +15,15 @@ import matplotlib as mpl
 mpl.rcParams.update({'font.size': 16})
 
 
-def calc_deformation(alpha, strike, depth, dip,  strike_width, dip_width, dislocation, x,y):
+def calc_deformation(alpha, strike, depth, dip,  strike_width, dip_width, dislocation, x, y):
     
 
     theta=strike-90
     theta=np.deg2rad(theta)
     R=np.array([[np.cos(theta),-np.sin(theta)],[np.sin(theta),np.cos(theta)]])
     R2=np.array([[np.cos(-theta),-np.sin(-theta)],[np.sin(-theta),np.cos(theta)]])
-
-    xrot,yrot = R.dot(x,y)
+    
+    xrot,yrot = R.dot([x,y])
 
     success, u, grad_u = dc3dwrapper(alpha , [xrot, yrot, 0.0], depth, dip,  strike_width, dip_width, dislocation)                                      
 

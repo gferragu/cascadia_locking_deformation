@@ -1,4 +1,4 @@
-#No	lon				lat					z(km)	  strike	  dip	rise dura	ss-slip(m)	ds-slip(m)	ss_len(m)	ds_len(m)	rupt_time(s)	rigidity(Pa)
+#No	lon	lat	z(km)	strike	dip	risedura	ss-slip(m)	ds-slip(m)	ss_len(m)	ds_len(m)	rupt_time(s)	rigidity(Pa)
 1	234.8826	     40.5784	      4.1250	  353.22	  8.03	0.5	1.0	  0.001166	 -0.019284 18155.77	 18155.77	0.0	60e9
 2	235.0833	     40.5253	      6.3750	  352.75	  8.05	0.5	1.0	  0.000541	 -0.021548 18574.88	 18574.88	0.0	60e9
 3	235.2837	     40.4723	      8.1250	  352.31	  4.50	0.5	1.0	 -0.000097	 -0.023803 18921.18	 18921.18	0.0	60e9
