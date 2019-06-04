@@ -135,7 +135,7 @@ def xsections(lon, uxwangx, uxgausx,uywangx, uygausx,uzwangx, uzgausx, title):
     axes[0].plot(lon,uxgausx, label = 'gaus model')
     axes[0].set_xlabel('longitude', fontsize = 14)
     axes[0].set_ylabel('EW deformation (m)', fontsize = 14)
-    axes[0].axvline(x=-124, c = 'black', label = 'coastline')
+#    axes[0].axvline(x=-124, c = 'black', label = 'coastline')
     axes[0].legend(loc=1)
 
     
@@ -143,14 +143,14 @@ def xsections(lon, uxwangx, uxgausx,uywangx, uygausx,uzwangx, uzgausx, title):
     axes[1].plot(lon,uygausx, label = 'gaus model')
     axes[1].set_xlabel('longitude',fontsize = 14)
     axes[1].set_ylabel('NS deformation (m)',fontsize = 14)
-    axes[1].axvline(x=-124, c = 'black', label = 'coastline')
+#    axes[1].axvline(x=-124, c = 'black', label = 'coastline')
 
     
     axes[2].plot(lon,uzwangx, label = 'wang model')
     axes[2].plot(lon,uzgausx, label = 'gaus model')
     axes[2].set_xlabel('longitude',fontsize = 14)
     axes[2].set_ylabel('Up down deformation (m)',fontsize = 14)
-    axes[2].axvline(x=-124, c = 'black', label = 'coastline')
+#    axes[2].axvline(x=-124, c = 'black', label = 'coastline')
 
     plt.tight_layout()
     plt.suptitle('latitude = ' + title, fontsize = 20)
@@ -162,18 +162,18 @@ def xsections(lon, uxwangx, uxgausx,uywangx, uygausx,uzwangx, uzgausx, title):
     axes[0].plot(lon,uxwangx-uxgausx, c = 'green')
     axes[0].set_xlabel('longitude', fontsize = 14)
     axes[0].set_ylabel('EW deformation (m)', fontsize = 14)
-    axes[0].axvline(x=-124, c = 'black', label = 'coastline')
+#    axes[0].axvline(x=-124, c = 'black', label = 'coastline')
     axes[0].legend(loc=1)
     
     axes[1].plot(lon,uywangx-uygausx, c = 'green')
     axes[1].set_xlabel('longitude',fontsize = 14)
     axes[1].set_ylabel('NS deformation (m)',fontsize = 14)
-    axes[1].axvline(x=-124, c = 'black', label = 'coastline')
+#    axes[1].axvline(x=-124, c = 'black', label = 'coastline')
     
     axes[2].plot(lon,uzwangx-uzgausx, c = 'green')
     axes[2].set_xlabel('longitude',fontsize = 14)
     axes[2].set_ylabel('Up down deformation (m)',fontsize = 14)
-    axes[2].axvline(x=-124, c = 'black', label = 'coastline')
+#    axes[2].axvline(x=-124, c = 'black', label = 'coastline')
 
     plt.tight_layout()
     plt.suptitle('Difference between wang and gaus latitude = ' + title, fontsize = 20)
