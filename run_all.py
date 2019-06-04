@@ -48,7 +48,8 @@ for p in range(len(patches_wang.lon)):
         for i in range(len(g.utmy[0])):
             az12,az21,distx = wgs84_geod.inv(g.lon[j][i],g.lat[j][i],patches_wang.lon[p],g.lat[j][i])
             az12,az21,disty = wgs84_geod.inv(g.lon[j][i],g.lat[j][i],g.lon[j][i],patches_wang.lat[p])
-            depth = patches_wang.z[p] + np.sqrt((patches_wang.ss_len[p]/2.)**2. + (patches_wang.ds_len[p]/2)**2.)
+#            depth = patches_wang.z[p] + np.sqrt((patches_wang.ss_len[p]/2.)**2. + (patches_wang.ds_len[p]/2)**2.)
+            depth = patches_wang.z[p] + (patches_wang.ds_len[p]/2.)*np.sin(patches_wang.dip[p])
             ux,uy,uz = calc_deformation(alpha = 2./3, strike = patches_wang.strike[p], depth = depth, dip = patches_wang.dip[p],  strike_width = [-1*patches_wang.ss_len[p]/2., patches_wang.ss_len[p]/2.], dip_width = [-1*patches_wang.ds_len[p]/2., patches_wang.ds_len[p]/2.], dislocation =[319.0*patches_wang.ss_slip[p], 319.0*patches_wang.ds_slip[p], 0], x = distx,y = disty)
             #next add us to g.u 
             g.ux[j][i] += ux
@@ -60,9 +61,8 @@ uywang =  g.uy
 uzwang =  g.uz
           
 #call plotting function for map  
-plot_deformation_map(lon= g.lon, lat = g.lat, uxg =  g.ux, uyg = g.uy, uzg = g.uz,title = 'wang model', label = 'vertical deformation (m)')
+plot_deformation_map(lon= g.lon, lat = g.lat, uxg =  g.ux, uyg = g.uy, uzg = g.uz,title = 'wang model', label = 'vertical deformation (m)')#,scale = (-2,7))
 plt.savefig('figures/wang.png')
-
 
 lon = np.arange(-127, -118, 0.2)
 lat = np.arange(40, 50, 0.2)
@@ -80,11 +80,10 @@ for p in range(len(patches_gaus.lon)):
         for i in range(len(g.utmy[0])):
             az12,az21,distx = wgs84_geod.inv(g.lon[j][i],g.lat[j][i],patches_gaus.lon[p],g.lat[j][i])
             az12,az21,disty = wgs84_geod.inv(g.lon[j][i],g.lat[j][i],g.lon[j][i],patches_gaus.lat[p])
-            depth = patches_gaus.z[p] + np.sqrt((patches_gaus.ss_len[p]/2.)**2. + (patches_gaus.ds_len[p]/2)**2.)
-
+#            depth = patches_gaus.z[p] + np.sqrt((patches_gaus.ss_len[p]/2.)**2. + (patches_gaus.ds_len[p]/2)**2.)
+            depth = patches_gaus.z[p] + (patches_gaus.ds_len[p]/2.)*np.sin(patches_gaus.dip[p])
             ux,uy,uz = calc_deformation(alpha = 2./3, strike = patches_gaus.strike[p], depth = depth, dip = patches_gaus.dip[p],  strike_width = [-1*patches_gaus.ss_len[p]/2., patches_gaus.ss_len[p]/2.], dip_width = [-1*patches_gaus.ds_len[p]/2., patches_gaus.ds_len[p]/2.], dislocation =[319.0*patches_gaus.ss_slip[p], 319.0*patches_gaus.ds_slip[p], 0],x=distx,y=disty) #x = g.utmx[j][i],y = g.utmy[j][i])
-            #next add us to g.u 
-#            print ux
+
             g.ux[j][i] += ux
             g.uy[j][i] += uy
             g.uz[j][i] += uz
@@ -97,39 +96,36 @@ residx = uxwang - uxgaus
 residy = uywang - uygaus
 residz = uzwang - uzgaus
 
-
-plot_deformation_map(lon= g.lon, lat = g.lat, uxg =  g.ux, uyg = g.uy, uzg = g.uz,title = 'gaussian model',label = 'vertical deformation (m)')
+plot_deformation_map(lon= g.lon, lat = g.lat, uxg =  g.ux, uyg = g.uy, uzg = g.uz,title = 'gaussian model',label = 'vertical deformation (m)')#, scale = (-2,7))
 plt.savefig('figures/gaus.png')
 
-plot_deformation_map(lon= g.lon, lat = g.lat, uxg =  residx, uyg = residy, uzg = residz,title = 'residuals',label = 'vertical deformation difference(m)')
+plot_deformation_map(lon= g.lon, lat = g.lat, uxg =  residx, uyg = residy, uzg = residz,title = 'residuals',label = 'vertical deformation difference(m)')#,scale = (-,7)
 plt.savefig('figures/residual.png')
 
-plot_patches(patches_gaus.lat, patches_gaus.lon, patches_gaus.ss_len, patches_gaus.ds_len,patches_gaus.ss_slip, label = 'strikeslip')
-plt.savefig('figures/strikeslip_gaus.png')
+plot_patches(patches_gaus.lat, patches_gaus.lon, patches_gaus.ss_len, patches_gaus.ds_len,np.sqrt((319.*patches_gaus.ds_slip)**2. + (319.*patches_gaus.ss_slip)**2.), label = 'total slip (m)')
+plt.savefig('figures/totalslip_gaus.png')
 
-plot_patches(patches_gaus.lat, patches_gaus.lon, patches_gaus.ss_len, patches_gaus.ds_len,patches_gaus.ds_slip, label = 'dipslip')
-plt.savefig('figures/dipslip_gaus.png')
+plot_patches(patches_wang.lat, patches_wang.lon, patches_wang.ss_len, patches_wang.ds_len,np.sqrt((319.*patches_wang.ds_slip)**2. + (319.*patches_wang.ss_slip)**2.), label = 'total slip (m)')
+plt.savefig('figures/totalslip_wang.png')
 
-plot_patches(patches_wang.lat, patches_wang.lon, patches_wang.ss_len, patches_wang.ds_len,patches_wang.ss_slip, label = 'strikeslip')
-plt.savefig('figures/strikeslip_wang.png')
+lonplot = g.lon[0]
+xsections(lon = lonplot, uxwangx = uxwang[0], uxgausx = uxgaus[0],uywangx = uywang[0], uygausx = uygaus[0], uzwangx = uzwang[0], uzgausx = uzgaus[0], title = '40')
+#plt.savefig('figures/xsection_40.png')
 
-plot_patches(patches_wang.lat, patches_wang.lon, patches_wang.ss_len, patches_wang.ds_len,patches_wang.ds_slip, label = 'dipslip')
-plt.savefig('figures/dipslip_wang.png')
-
-xsections(lon = g.lon[0], uzwang = uzwang[0], uzgaus = uzgaus[0], title = 'latitude = 40 degrees')
-plt.savefig('figures/xsection_40.png')
-
-xsections(lon = g.lon[10], uzwang = uzwang[10], uzgaus = uzgaus[10], title = 'latitude = 42 degrees')
+xsections(lon = lonplot, uxwangx = uxwang[10], uxgausx = uxgaus[10],uywangx = uywang[10], uygausx = uygaus[10], uzwangx = uzwang[10], uzgausx = uzgaus[10], title = '42')
 plt.savefig('figures/xsection_42.png')
 
-xsections(lon = g.lon[20], uzwang = uzwang[20], uzgaus = uzgaus[20], title = 'latitude = 44 degrees')
+xsections(lon = lonplot, uxwangx = uxwang[20], uxgausx = uxgaus[20],uywangx = uywang[20], uygausx = uygaus[20], uzwangx = uzwang[20], uzgausx = uzgaus[20], title = '44')
 plt.savefig('figures/xsection_44.png')
 
-xsections(lon = g.lon[30], uzwang = uzwang[30], uzgaus = uzgaus[30], title = 'latitude = 46 degrees')
+xsections(lon = lonplot, uxwangx = uxwang[30], uxgausx = uxgaus[30],uywangx = uywang[30], uygausx = uygaus[30], uzwangx = uzwang[30], uzgausx = uzgaus[30], title = '46')
 plt.savefig('figures/xsection_46.png')
 
-xsections(lon = g.lon[40], uzwang = uzwang[40], uzgaus = uzgaus[40], title = 'latitude = 48 degrees')
+xsections(lon = lonplot, uxwangx = uxwang[40], uxgausx = uxgaus[40],uywangx = uywang[40], uygausx = uygaus[40], uzwangx = uzwang[40], uzgausx = uzgaus[40], title = '48')
 plt.savefig('figures/xsection_48.png')
+
+#xsections(lon = lonplot, uxwangx = uxwang[40], uxgausx = uxgaus[40],uywangx = uywang[40], uygausx = uygaus[40], uzwangx = uzwang[40], uzgausx = uzgaus[40], title = 'latitude = 48 degrees')
+#plt.savefig('figures/xsection_48.png')
 
 plot_region(latlist = [40,42,44,46,48], title = 'cross section lines')
 plt.savefig('figures/xsection_map.png')
