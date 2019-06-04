@@ -66,9 +66,9 @@ def plot_deformation_map(lon, lat, uxg,uyg,uzg,title, label):#and maybe arrow po
     
     X, Y = np.meshgrid(lon[0][::3],lat[:,0][::3])
     U = uxg[::3, ::3].flatten()
-    V = uxg[::3, ::3].flatten()
+    V = uyg[::3, ::3].flatten()
     q = plt.quiver(X, Y, U, V, zorder = 1000, transform=ccrs.PlateCarree())
-    plt.quiverkey(q, X=0.3, Y=1.1, U=5, label='Quiver key, length = 1 m', labelpos='E')
+    plt.quiverkey(q, X=0.3, Y=1.1, U=10, label='Quiver key, length = 10 m', labelpos='E')
 #    X, Y = np.meshgrid(lon[0],lat[:,0])
 #    U = uxg.flatten()
 #    V = uxg.flatten()
@@ -100,7 +100,7 @@ def plot_patches(lat,lon, sslen, dslen,c, label):#and maybe arrow points of deci
     ax.set_extent([-128.01, -117.99, 39.8, 50.1])
     
     cmap = mpl.cm.get_cmap('viridis')
-    normalize = mpl.colors.Normalize(vmin=min(c), vmax=max(c))
+    normalize = mpl.colors.Normalize(vmin=0, vmax=15)
 
     colors = [cmap(normalize(value)) for value in c]
     s_m = mpl.cm.ScalarMappable(cmap = cmap, norm=normalize)
