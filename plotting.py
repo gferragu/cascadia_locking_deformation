@@ -64,9 +64,9 @@ def plot_deformation_map(lon, lat, uxg,uyg,uzg,title, label):#and maybe arrow po
     ax.gridlines(xlocs=xticks, ylocs=yticks, draw_labels = True)
     plt.scatter(longrid,latgrid, s = 30, c = colors, edgecolors = colors, transform=ccrs.PlateCarree(),alpha = 0.8,label = 'obs points')
     
-    X, Y = np.meshgrid(lon[0][::3],lat[:,0][::3])
-    U = uxg[::3, ::3].flatten()
-    V = uyg[::3, ::3].flatten()
+    X, Y = np.meshgrid(lon[0][::2],lat[:,0][::2])
+    U = uxg[::2, ::2].flatten()
+    V = uyg[::2, ::2].flatten()
     q = plt.quiver(X, Y, U, V, zorder = 1000, transform=ccrs.PlateCarree())
     plt.quiverkey(q, X=0.3, Y=1.1, U=10, label='Quiver key, length = 10 m', labelpos='E')
 #    X, Y = np.meshgrid(lon[0],lat[:,0])
@@ -85,7 +85,7 @@ def plot_deformation_map(lon, lat, uxg,uyg,uzg,title, label):#and maybe arrow po
 
     plt.show()
 
-def plot_patches(lat,lon, sslen, dslen,c, label):#and maybe arrow points of decimate later and plot
+def plot_patches(lat,lon, sslen, dslen,c, label, title):#and maybe arrow points of decimate later and plot
     #map of all of cascadia
     utmxc, utmyc = myProj(lon,lat)
 
@@ -98,6 +98,8 @@ def plot_patches(lat,lon, sslen, dslen,c, label):#and maybe arrow points of deci
     fig = plt.figure(figsize = (8,10))#6,10
     ax = plt.axes(projection=ccrs.PlateCarree())
     ax.set_extent([-128.01, -117.99, 39.8, 50.1])
+    
+    plt.title(title)
     
     cmap = mpl.cm.get_cmap('viridis')
     normalize = mpl.colors.Normalize(vmin=0, vmax=15)
@@ -129,13 +131,13 @@ def plot_patches(lat,lon, sslen, dslen,c, label):#and maybe arrow points of deci
     cbar.ax.tick_params(labelsize = 14)
     plt.show()    
     
-def xsections(lon, uxwangx, uxgausx,uywangx, uygausx,uzwangx, uzgausx, title):
+def xsections(lon, uxwangx, uxgausx,uywangx, uygausx,uzwangx, uzgausx, title, coast):
     fig, axes = plt.subplots(3, 1, figsize = (10,10))
     axes[0].plot(lon,uxwangx, label = 'wang model')
     axes[0].plot(lon,uxgausx, label = 'gaus model')
     axes[0].set_xlabel('longitude', fontsize = 14)
     axes[0].set_ylabel('EW deformation (m)', fontsize = 14)
-#    axes[0].axvline(x=-124, c = 'black', label = 'coastline')
+    axes[0].axvline(x=coast, c = 'black', label = 'coastline')
     axes[0].legend(loc=1)
 
     
@@ -143,14 +145,14 @@ def xsections(lon, uxwangx, uxgausx,uywangx, uygausx,uzwangx, uzgausx, title):
     axes[1].plot(lon,uygausx, label = 'gaus model')
     axes[1].set_xlabel('longitude',fontsize = 14)
     axes[1].set_ylabel('NS deformation (m)',fontsize = 14)
-#    axes[1].axvline(x=-124, c = 'black', label = 'coastline')
+    axes[1].axvline(x=coast, c = 'black', label = 'coastline')
 
     
     axes[2].plot(lon,uzwangx, label = 'wang model')
     axes[2].plot(lon,uzgausx, label = 'gaus model')
     axes[2].set_xlabel('longitude',fontsize = 14)
     axes[2].set_ylabel('Up down deformation (m)',fontsize = 14)
-#    axes[2].axvline(x=-124, c = 'black', label = 'coastline')
+    axes[2].axvline(x=coast, c = 'black', label = 'coastline')
 
     plt.tight_layout()
     plt.suptitle('latitude = ' + title, fontsize = 20)
@@ -162,18 +164,18 @@ def xsections(lon, uxwangx, uxgausx,uywangx, uygausx,uzwangx, uzgausx, title):
     axes[0].plot(lon,uxwangx-uxgausx, c = 'green')
     axes[0].set_xlabel('longitude', fontsize = 14)
     axes[0].set_ylabel('EW deformation (m)', fontsize = 14)
-#    axes[0].axvline(x=-124, c = 'black', label = 'coastline')
+    axes[0].axvline(x=coast, c = 'black', label = 'coastline')
     axes[0].legend(loc=1)
     
     axes[1].plot(lon,uywangx-uygausx, c = 'green')
     axes[1].set_xlabel('longitude',fontsize = 14)
     axes[1].set_ylabel('NS deformation (m)',fontsize = 14)
-#    axes[1].axvline(x=-124, c = 'black', label = 'coastline')
+    axes[1].axvline(x=coast, c = 'black', label = 'coastline')
     
     axes[2].plot(lon,uzwangx-uzgausx, c = 'green')
     axes[2].set_xlabel('longitude',fontsize = 14)
     axes[2].set_ylabel('Up down deformation (m)',fontsize = 14)
-#    axes[2].axvline(x=-124, c = 'black', label = 'coastline')
+    axes[2].axvline(x=coast, c = 'black', label = 'coastline')
 
     plt.tight_layout()
     plt.suptitle('Difference between wang and gaus latitude = ' + title, fontsize = 20)
@@ -184,7 +186,7 @@ def xsections(lon, uxwangx, uxgausx,uywangx, uygausx,uzwangx, uzgausx, title):
     
 def plot_region(latlist, title):
     stamen_terrain = cimgt.StamenTerrain()#desired_tile_form="RGB")
-    fig = plt.figure(figsize = (8,10))#6,10
+    fig = plt.figure(figsize = (6,10))#6,10
     ax = plt.axes(projection=ccrs.PlateCarree())
     ax.set_extent([-128.01, -117.99, 39.8, 50.1])
     

@@ -102,26 +102,26 @@ plt.savefig('figures/gaus.png')
 plot_deformation_map(lon= g.lon, lat = g.lat, uxg =  residx, uyg = residy, uzg = residz,title = 'residuals',label = 'vertical deformation difference(m)')#,scale = (-,7)
 plt.savefig('figures/residual.png')
 
-plot_patches(patches_gaus.lat, patches_gaus.lon, patches_gaus.ss_len, patches_gaus.ds_len,np.sqrt((319.*patches_gaus.ds_slip)**2. + (319.*patches_gaus.ss_slip)**2.), label = 'total slip (m)')
+plot_patches(patches_gaus.lat, patches_gaus.lon, patches_gaus.ss_len, patches_gaus.ds_len,np.sqrt((319.*patches_gaus.ds_slip)**2. + (319.*patches_gaus.ss_slip)**2.), label = 'total slip (m)', title = 'gaus model')
 plt.savefig('figures/totalslip_gaus.png')
 
-plot_patches(patches_wang.lat, patches_wang.lon, patches_wang.ss_len, patches_wang.ds_len,np.sqrt((319.*patches_wang.ds_slip)**2. + (319.*patches_wang.ss_slip)**2.), label = 'total slip (m)')
+plot_patches(patches_wang.lat, patches_wang.lon, patches_wang.ss_len, patches_wang.ds_len,np.sqrt((319.*patches_wang.ds_slip)**2. + (319.*patches_wang.ss_slip)**2.), label = 'total slip (m)', title = 'wang model')
 plt.savefig('figures/totalslip_wang.png')
 
 lonplot = g.lon[0]
-xsections(lon = lonplot, uxwangx = uxwang[0], uxgausx = uxgaus[0],uywangx = uywang[0], uygausx = uygaus[0], uzwangx = uzwang[0], uzgausx = uzgaus[0], title = '40')
+xsections(lon = lonplot, uxwangx = uxwang[0], uxgausx = uxgaus[0],uywangx = uywang[0], uygausx = uygaus[0], uzwangx = uzwang[0], uzgausx = uzgaus[0], title = '40', coast = -124)
 #plt.savefig('figures/xsection_40.png')
 
-xsections(lon = lonplot, uxwangx = uxwang[10], uxgausx = uxgaus[10],uywangx = uywang[10], uygausx = uygaus[10], uzwangx = uzwang[10], uzgausx = uzgaus[10], title = '42')
+xsections(lon = lonplot, uxwangx = uxwang[10], uxgausx = uxgaus[10],uywangx = uywang[10], uygausx = uygaus[10], uzwangx = uzwang[10], uzgausx = uzgaus[10], title = '42', coast = -124.2)
 plt.savefig('figures/xsection_42.png')
 
-xsections(lon = lonplot, uxwangx = uxwang[20], uxgausx = uxgaus[20],uywangx = uywang[20], uygausx = uygaus[20], uzwangx = uzwang[20], uzgausx = uzgaus[20], title = '44')
+xsections(lon = lonplot, uxwangx = uxwang[20], uxgausx = uxgaus[20],uywangx = uywang[20], uygausx = uygaus[20], uzwangx = uzwang[20], uzgausx = uzgaus[20], title = '44', coast = -124.1)
 plt.savefig('figures/xsection_44.png')
 
-xsections(lon = lonplot, uxwangx = uxwang[30], uxgausx = uxgaus[30],uywangx = uywang[30], uygausx = uygaus[30], uzwangx = uzwang[30], uzgausx = uzgaus[30], title = '46')
+xsections(lon = lonplot, uxwangx = uxwang[30], uxgausx = uxgaus[30],uywangx = uywang[30], uygausx = uygaus[30], uzwangx = uzwang[30], uzgausx = uzgaus[30], title = '46', coast = -123.9)
 plt.savefig('figures/xsection_46.png')
 
-xsections(lon = lonplot, uxwangx = uxwang[40], uxgausx = uxgaus[40],uywangx = uywang[40], uygausx = uygaus[40], uzwangx = uzwang[40], uzgausx = uzgaus[40], title = '48')
+xsections(lon = lonplot, uxwangx = uxwang[40], uxgausx = uxgaus[40],uywangx = uywang[40], uygausx = uygaus[40], uzwangx = uzwang[40], uzgausx = uzgaus[40], title = '48', coast = -124.7)
 plt.savefig('figures/xsection_48.png')
 
 #xsections(lon = lonplot, uxwangx = uxwang[40], uxgausx = uxgaus[40],uywangx = uywang[40], uygausx = uygaus[40], uzwangx = uzwang[40], uzgausx = uzgaus[40], title = 'latitude = 48 degrees')
